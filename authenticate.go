@@ -10,12 +10,17 @@ import (
 
 // Use This funtion when user is authorised after getting
 // validation from database
-func authenticate(rw http.ResponseWriter, jsonStringTOSend string) error {
+func Authenticate(rw http.ResponseWriter, jsonStringTOSend string, seconds int) error {
 	s := encode(jsonStringTOSend)
 	h, err := hashTheString(s)
 	if err != nil {
 		return err
 	}
-	rw.Header().Add("jwt", s+"."+h)
+	c := &http.Cookie{
+		Name:   "jwt",
+		Value:  s + "." + h,
+		MaxAge: seconds,
+	}
+	http.SetCookie(rw, c)
 	return nil
 }

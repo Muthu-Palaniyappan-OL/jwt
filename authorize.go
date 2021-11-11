@@ -12,15 +12,21 @@ import (
 
 // This Returns The Json String When is encoded and
 // authenticated by the hash function
-func authorize(rw http.ResponseWriter) (string, error) {
-	jwt := rw.Header().Get("jwt")
+func Authorize(r http.Response) (string, error) {
+	var jwt string
+	cs := r.Cookies()
+	for _, cookie := range cs {
+		if cookie.Name == "jwt" {
+			jwt = cookie.Name
+		}
+	}
 	if jwt == "" {
-		return "", errors.New("New Authentication Can't Authorise | jwt header is not set")
+		return "", errors.New("or not cookies is set | new authentication can't authorise | jwt header is not set")
 	}
 
 	splitStrings := strings.Split(jwt, ".")
 
-	if (splitStrings[1] != encode(splitStrings[0])){
+	if splitStrings[1] != encode(splitStrings[0]) {
 		return "", nil
 	}
 
