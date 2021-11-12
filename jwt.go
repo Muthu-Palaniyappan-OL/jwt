@@ -1,3 +1,7 @@
+// Copyright 2021 Muthu Palaniyappan OL. All rights reserved.
+// Use of this source code is governed by a Apache-2.0
+// license that can be found in the LICENSE file.
+
 package jwt
 
 import (
@@ -13,7 +17,7 @@ var (
 	privateKey string
 )
 
-// Is Private Key Set
+// returns true is pivateKey is set
 func IsPrivateKeySet() bool {
 	if privateKey == "" {
 		return false
@@ -22,7 +26,7 @@ func IsPrivateKeySet() bool {
 	}
 }
 
-// Sets private key
+// sets given string as a privateKey. privateKey can be set only once.
 func SetPrivateKey(key string) error {
 	if key == "" {
 		panic("Empty Private Key Can't Be Set")
@@ -37,11 +41,10 @@ func SetPrivateKey(key string) error {
 	return nil
 }
 
-// Hashes STring to sha356 with private key set by function
-// SetPrivateKey() and return error if private key is not set
+// Hashes given String to SHA256 with privateKey set by function SetPrivateKey() and return error if private key is not set
 func hashTheString(input string) (string, error) {
-	if hasher == nil || privateKey == "" {
-		return "", errors.New("set private key : suggestion : use SetPrivateKey() function")
+	if hasher == nil || IsPrivateKeySet() {
+		return "", errors.New("privateKey not set")
 	}
 
 	hasher.Write([]byte(input))

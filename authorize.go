@@ -1,3 +1,7 @@
+// Copyright 2021 Muthu Palaniyappan OL. All rights reserved.
+// Use of this source code is governed by a Apache-2.0
+// license that can be found in the LICENSE file.
+
 package jwt
 
 import (
@@ -6,44 +10,35 @@ import (
 	"strings"
 )
 
-// There is a difference between authenticate and authorization
-// authorization Means validating the user alone
-// without getting all details.
-
-// This Returns The Json String When is encoded and
-// authenticated by the hash function
+// reads jwt cookies in the client http.Request and checks the validity of jwt cookie signature (check whether it is signed with the same privateKey) and returns the json string which was set as a cookie by server before in Authenticate() function.
 func Authorize(r *http.Request) (string, error) {
+	if !IsPrivateKeySet() {
+		panic("private key not set")
+	}
 
 	var jwt string
-
 	cs := r.Cookies()
-
 	for _, cookie := range cs {
 		if cookie.Name == "jwt" {
 			jwt = cookie.Value
 		}
 	}
-
 	if jwt == "" {
-		return "", errors.New("jwt cookie is not set or empty")
+		return "", errors.New("jwt cookie is not set or jwt cookie is empty")
 	}
 
 	splitStrings := strings.Split(jwt, ".")
-
 	if len(splitStrings) != 2 {
-		return splitStrings[0], errors.New("jwt doesnt have exactly one dot separating")
+		return splitStrings[0], errors.New("jwt token is tampered")
 	}
 
 	str, err := hashTheString(splitStrings[0])
-
 	if err != nil {
 		return "", err
 	}
-
 	if splitStrings[1] != str {
-		return splitStrings[0] + "/\\" + str + "|||" + splitStrings[1], errors.New("signature matching failed")
+		return "", errors.New("signature does not match")
 	}
-
 	decodedString, err := decode(splitStrings[0])
 	if err != nil {
 		return "", err

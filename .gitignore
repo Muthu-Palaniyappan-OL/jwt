@@ -1,2 +1,9 @@
 .idea
 .code
+*.test
+*.tmp
+*.dll
+*.dylib
+*.exe
+*.exe~
+*.so

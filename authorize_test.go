@@ -1,3 +1,7 @@
+// Copyright 2021 Muthu Palaniyappan OL. All rights reserved.
+// Use of this source code is governed by a Apache-2.0
+// license that can be found in the LICENSE file.
+
 package jwt
 
 import (
@@ -25,7 +29,7 @@ func TestAuthorize(t *testing.T) {
 		})
 		s, err := Authorize(r)
 		if err != nil {
-			t.Fatal("Error From Authorize() Function:", err, "Returned String => ", s)
+			t.Fatal("error created by Authenticate() function, error:", err)
 		}
 	}
 }
