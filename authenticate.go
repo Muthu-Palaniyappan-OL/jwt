@@ -16,11 +16,11 @@ func Authenticate(rw http.ResponseWriter, jsonStringTOSend string, seconds int) 
 		return err
 	}
 	http.SetCookie(rw, &http.Cookie{
-		Name:   "jwt",
-		Value:  s + "." + h,
-		MaxAge: seconds,
+		Name:     "jwt",
+		Value:    s + "." + h,
+		MaxAge:   seconds,
 		SameSite: http.SameSiteDefaultMode,
-		Secure: true,
+		Secure:   true,
 	})
 	return nil
 }

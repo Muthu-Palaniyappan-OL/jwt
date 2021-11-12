@@ -6,12 +6,27 @@ import (
 
 func TestPrivatehash(t *testing.T) {
 
+	hashs := []struct {
+		Unhashed string
+		Hashed   string
+	}{
+		{"eyJOYW1lIjoidGVzdGluZ3ByaXZhdGVrZXkifQ==", "kWPDUpVfpo4a5mrorXRqewieEpplX/MJZeWqutSmPVM="},
+		{"eyJOYW1lIjoibXV0aHUifQ==", "zx8Xt8A03iBbeDRrkgGWJqDG9FV6zL5ExaK93XkQ8xc="},
+	}
+
 	if !IsPrivateKeySet() {
 		SetPrivateKey("testingprivatekey")
 	}
 
-	h, _ := hashTheString("Muthu")
-	t.Logf("Hash: %s\n", h)
+	for _, hash := range hashs {
+		h, err := hashTheString(hash.Unhashed)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if h != hash.Hashed {
+			t.Fatalf("For Input %s Expected output %s recived output %s", hash.Unhashed, hash.Hashed, h)
+		}
+	}
 
 }
 

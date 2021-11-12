@@ -15,7 +15,7 @@ var (
 
 // Is Private Key Set
 func IsPrivateKeySet() bool {
-	if privateKey == ""{
+	if privateKey == "" {
 		return false
 	} else {
 		return true

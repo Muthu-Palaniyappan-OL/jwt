@@ -1,9 +1,9 @@
 package jwt
 
 import (
+	"math/rand"
 	"net/http/httptest"
 	"testing"
-	"math/rand"
 )
 
 func TestAuthenticate(t *testing.T) {
@@ -30,7 +30,7 @@ func TestAuthenticate(t *testing.T) {
 	}
 
 	if jwtExists == true {
-		;
+
 	} else {
 		t.Fatal("jwt Cookies in not Set in resposnse")
 	}

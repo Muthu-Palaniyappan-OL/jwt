@@ -30,7 +30,7 @@ func Authorize(r *http.Request) (string, error) {
 
 	splitStrings := strings.Split(jwt, ".")
 
-	if (len(splitStrings) != 2){
+	if len(splitStrings) != 2 {
 		return splitStrings[0], errors.New("jwt doesnt have exactly one dot separating")
 	}
 
@@ -41,14 +41,13 @@ func Authorize(r *http.Request) (string, error) {
 	}
 
 	if splitStrings[1] != str {
-		return str+"|||"+splitStrings[1], errors.New("signature matching failed")
+		return splitStrings[0] + "/\\" + str + "|||" + splitStrings[1], errors.New("signature matching failed")
 	}
 
 	decodedString, err := decode(splitStrings[0])
 	if err != nil {
 		return "", err
 	}
-
 
 	return decodedString, nil
 }
