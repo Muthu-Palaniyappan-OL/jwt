@@ -20,6 +20,10 @@ func Authorize(r http.Response) (string, error) {
 			jwt = cookie.Name
 		}
 	}
+	jwt, err := decode(jwt)
+	if err != nil {
+		return "", errors.New("connat decode")
+	}
 	if jwt == "" {
 		return "", errors.New("or not cookies is set | new authentication can't authorise | jwt header is not set")
 	}

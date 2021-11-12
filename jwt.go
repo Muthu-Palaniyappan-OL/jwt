@@ -13,10 +13,19 @@ var (
 	privateKey string
 )
 
+// Is Private Key Set
+func IsPrivateKeySet() bool {
+	if privateKey == ""{
+		return false
+	} else {
+		return true
+	}
+}
+
 // Sets private key
 func SetPrivateKey(key string) error {
 	if key == "" {
-		panic("Private Key is cannot Be Empty : Suggestion : use SetPrivatekey() function")
+		panic("Empty Private Key Can't Be Set")
 	}
 
 	if privateKey != "" {

@@ -6,7 +6,10 @@ import (
 
 func TestPrivatehash(t *testing.T) {
 
-	SetPrivateKey("12")
+	if !IsPrivateKeySet() {
+		SetPrivateKey("testingprivatekey")
+	}
+
 	h, _ := hashTheString("Muthu")
 	t.Logf("Hash: %s\n", h)
 
