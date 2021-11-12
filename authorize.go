@@ -12,27 +12,43 @@ import (
 
 // This Returns The Json String When is encoded and
 // authenticated by the hash function
-func Authorize(r http.Response) (string, error) {
+func Authorize(r *http.Request) (string, error) {
+
 	var jwt string
+
 	cs := r.Cookies()
+
 	for _, cookie := range cs {
 		if cookie.Name == "jwt" {
-			jwt = cookie.Name
+			jwt = cookie.Value
 		}
 	}
-	jwt, err := decode(jwt)
-	if err != nil {
-		return "", errors.New("connat decode")
-	}
+
 	if jwt == "" {
-		return "", errors.New("or not cookies is set | new authentication can't authorise | jwt header is not set")
+		return "", errors.New("jwt cookie is not set or empty")
 	}
 
 	splitStrings := strings.Split(jwt, ".")
 
-	if splitStrings[1] != encode(splitStrings[0]) {
-		return "", nil
+	if (len(splitStrings) != 2){
+		return splitStrings[0], errors.New("jwt doesnt have exactly one dot separating")
 	}
 
-	return splitStrings[0], nil
+	str, err := hashTheString(splitStrings[0])
+
+	if err != nil {
+		return "", err
+	}
+
+	if splitStrings[1] != str {
+		return str+"|||"+splitStrings[1], errors.New("signature matching failed")
+	}
+
+	decodedString, err := decode(splitStrings[0])
+	if err != nil {
+		return "", err
+	}
+
+
+	return decodedString, nil
 }
