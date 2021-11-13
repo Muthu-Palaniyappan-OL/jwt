@@ -5,14 +5,14 @@
 /*
 	package jwt implements simple way to create jwt tokens for your web project in golang.
 
-	This package takes HMAC algorithm by default for any other algorithm download this source code and change it freely.
+	This package takes SHA256 algorithm by default for any other algorithm download this source code and change it freely.
 
 	Authenticate means putting username and password and getting verified and generate key.
  	Authorization means having a key which can be used to open door.
 
  	Functions implemented and exported in this package:
 
- 	func Authenticate(rw http.ResponseWriter, jsonStringTOSend string, seconds int)
+ 	func Authenticate(rw http.ResponseWriter, jsonStringTOSend string, seconds int) (string, error)
  	func Authorize(r *http.Request) (string, error)
  	func SetCookiePath(path string)
  	func IsPrivateKeySet() bool

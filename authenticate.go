@@ -15,16 +15,16 @@ var jwtCookie *http.Cookie = &http.Cookie{
 }
 
 // After Authenticating the user by verifying the username in database you need to create a json string by using json.Marshal() Function and send it via this function which gets converted into encoded hash and send it user via http.ResponseWriter as a token you could specify duration of cookie in seconds argument.
-func Authenticate(rw http.ResponseWriter, jsonStringTOSend string, seconds int) error {
+func Authenticate(rw http.ResponseWriter, jsonStringTOSend string, seconds int) (string, error) {
 	s := encode(jsonStringTOSend)
 	h, err := hashTheString(s)
 	if err != nil {
-		return err
+		return "", err
 	}
 	jwtCookie.Value = s + "." + h
 	jwtCookie.MaxAge = seconds
 	http.SetCookie(rw, jwtCookie)
-	return nil
+	return s + "." + h, nil
 }
 
 // Set jwt cookie's path using this function

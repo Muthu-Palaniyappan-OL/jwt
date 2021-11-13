@@ -17,7 +17,7 @@ func TestAuthenticate(t *testing.T) {
 
 	rw := httptest.NewRecorder()
 
-	err := Authenticate(rw, encode("testingjsonstring"), rand.Int())
+	_, err := Authenticate(rw, encode("testingjsonstring"), rand.Int())
 
 	if err != nil {
 		t.Fatalf("error created by Authenticate() function, error:", err)
