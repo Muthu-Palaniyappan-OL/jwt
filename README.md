@@ -1,4 +1,5 @@
 # jwt
+[![Go Reference](https://pkg.go.dev/badge/github.com/Muthu-Palaniyappan-OL/jwt.svg)](https://pkg.go.dev/github.com/Muthu-Palaniyappan-OL/jwt)
 
 Simple yet Powerful Json Webtoken Library. Add JSON WebToken Authorisation in your web project in few clicks and codes.  package `jwt` implements jwt in a different way it remove overhead of calculation which hashing algorithm to use by takein `SHA256` by default agorithm and reduces JWT length size by removing header.
 
