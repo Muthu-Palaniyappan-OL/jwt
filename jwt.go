@@ -43,7 +43,7 @@ func SetPrivateKey(key string) error {
 
 // Hashes given String to SHA256 with privateKey set by function SetPrivateKey() and return error if private key is not set
 func hashTheString(input string) (string, error) {
-	if hasher == nil || IsPrivateKeySet() {
+	if hasher == nil || !IsPrivateKeySet() {
 		return "", errors.New("privateKey not set")
 	}
 
